@@ -6,7 +6,7 @@ Below is a sample README file for the [Logo App](https://github.com/vrushabhd/lo
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-A simple Flutter application that demonstrates how to display and animate a custom logo. This project is built as an example for learning Flutter UI fundamentals and creating smooth logo animations.
+A simple Flutter application that demonstrates how to display profile and navigaton bar. This project is built as an example for learning Flutter UI fundamentals and creating smooth logo animations.
 
 ## Table of Contents
 
