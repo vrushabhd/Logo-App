@@ -129,9 +129,9 @@ class _MainScreenState extends State<MainScreen> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-
     });
-    if (index == 3) { // Index for ProfileScreen (Profile tab)
+    if (index == 3) {
+      // Index for ProfileScreen (Profile tab)
       print("Profile screen tab clicked!");
       // Add any additional actions for the profile tab here.
     }
@@ -355,12 +355,14 @@ Widget buildProfileCircle({
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
-      GestureDetector(onTap: (){
-
-        Get.to(ProfileScreen(name: name,imageUrl: imageUrl, selectedIndex: 0,));
-
-
-      },
+      GestureDetector(
+        onTap: () {
+          Get.to(ProfileScreen(
+            name: name,
+            imageUrl: imageUrl,
+            selectedIndex: 0,
+          ));
+        },
         child: CircleAvatar(
           radius: 50,
           backgroundImage: AssetImage(imageUrl),
@@ -566,7 +568,10 @@ class ProfileScreen extends StatelessWidget {
   String defaultimageUrl = "assets/cat1.png";
 
   // const ProfileScreen(String name,String imageUrl);
-  ProfileScreen({required this.name, required this.imageUrl,required this.selectedIndex});
+  ProfileScreen(
+      {required this.name,
+      required this.imageUrl,
+      required this.selectedIndex});
 
   @override
   Widget build(BuildContext context) {
@@ -615,16 +620,16 @@ class ProfileScreen extends StatelessWidget {
                     children: [
                       // Cat Image
                       CircleAvatar(
-                        radius: 50,
-                        backgroundImage: AssetImage(selectedIndex == 3 ?defaultimageUrl: imageUrl)
-                      ),
+                          radius: 50,
+                          backgroundImage: AssetImage(
+                              selectedIndex == 3 ? defaultimageUrl : imageUrl)),
                       const SizedBox(height: 8),
                       // Name + Gold Badge
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                           Text(
-                             selectedIndex == 3? defaultnameValue:name,
+                          Text(
+                            selectedIndex == 3 ? defaultnameValue : name,
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -658,17 +663,16 @@ class ProfileScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-          
+
                 const Divider(),
-          
+
                 // Section Header
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          
-                    children:  [
+                    children: [
                       Text(
                         'Total 35 reviews written',
                         style: TextStyle(
@@ -679,7 +683,8 @@ class ProfileScreen extends StatelessWidget {
                       DropdownButton<String>(
                         value: 'Sort By',
                         icon: const Icon(Icons.keyboard_arrow_down),
-                        items: <String>['Sort By', 'Rating','A-Z'].map((String value) {
+                        items: <String>['Sort By', 'Rating', 'A-Z']
+                            .map((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
                             child: Text(value),
@@ -692,15 +697,15 @@ class ProfileScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-          
+
                 // Review Card (Product)
-                buildProductReviewCard(context,imageUrl),
-          
+                buildProductReviewCard(context, imageUrl),
+
                 // User Review Details
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: buildUserReview(context,name,imageUrl),
+                  child: buildUserReview(context, name, imageUrl),
                 ),
               ],
             ),
@@ -796,8 +801,7 @@ class ProfileScreen extends StatelessWidget {
   // }
 
   /// Example "review card" for the product
-  Widget buildProductReviewCard(BuildContext context,String imageUrl) {
-
+  Widget buildProductReviewCard(BuildContext context, String imageUrl) {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       child: Padding(
@@ -806,17 +810,20 @@ class ProfileScreen extends StatelessWidget {
           children: [
             // Product Image
             ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Image.asset("assets/ryzen_cpu.png",width: 80,
+                borderRadius: BorderRadius.circular(8),
+                child: Image.asset(
+                  "assets/ryzen_cpu.png",
+                  width: 80,
                   height: 80,
-                  fit: BoxFit.cover,)
-              // Image.network(
-              //  imageUrl,
-              //   width: 80,
-              //   height: 80,
-              //   fit: BoxFit.cover,
-              // ),
-            ),
+                  fit: BoxFit.cover,
+                )
+                // Image.network(
+                //  imageUrl,
+                //   width: 80,
+                //   height: 80,
+                //   fit: BoxFit.cover,
+                // ),
+                ),
             const SizedBox(width: 12),
             // Product Info
             Expanded(
@@ -850,7 +857,7 @@ class ProfileScreen extends StatelessWidget {
   }
 
   /// Example of a single user review item
-  Widget buildUserReview(BuildContext context,String name,String imageUrl) {
+  Widget buildUserReview(BuildContext context, String name, String imageUrl) {
     return Container(
       padding: const EdgeInsets.all(12.0),
       decoration: BoxDecoration(
@@ -869,7 +876,7 @@ class ProfileScreen extends StatelessWidget {
                 backgroundImage: AssetImage(imageUrl),
               ),
               const SizedBox(width: 8),
-               Text(
+              Text(
                 name,
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
