@@ -569,7 +569,7 @@ class ProfileScreen extends StatelessWidget {
 
   // const ProfileScreen(String name,String imageUrl);
   ProfileScreen(
-      {required this.name,
+      {super.key, required this.name,
       required this.imageUrl,
       required this.selectedIndex});
 
