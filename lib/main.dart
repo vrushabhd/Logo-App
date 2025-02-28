@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:get/get.dart';
 
 // Product Model
 class Product {
@@ -8,6 +9,7 @@ class Product {
   final String description;
   final double price;
   final bool isTop10;
+  final String rating;
 
   Product({
     required this.imageUrl,
@@ -15,6 +17,7 @@ class Product {
     required this.description,
     required this.price,
     this.isTop10 = false,
+    required this.rating,
   });
 }
 
@@ -29,29 +32,30 @@ class User {
 // Sample Data
 final List<Product> sampleProducts = [
   Product(
-    imageUrl: 'assets/lg_stand_tv.png',
-    name: 'Electric Fan',
-    description: 'High-performance Electric Fan',
-    price: 50000,
-  ),
+      imageUrl: 'assets/lg_stand_tv.png',
+      name: 'Electric Fan',
+      description: 'High-performance Electric Fan',
+      price: 50000,
+      rating: "4.9"),
   Product(
-    imageUrl: 'assets/smart_tv.png',
-    name: 'Notebook',
-    description: 'Latest High-performance Laptop',
-    price: 1000000,
-    isTop10: true,
-  ),
+      imageUrl: 'assets/smart_tv.png',
+      name: 'Notebook',
+      description: 'Latest High-performance Laptop',
+      price: 1000000,
+      isTop10: true,
+      rating: "4.1"),
   Product(
-    imageUrl: 'assets/4k.png',
-    name: 'Beer and Snack',
-    description: 'Delicious Beer and Snack Set',
-    price: 15000, ),
+      imageUrl: 'assets/4k.png',
+      name: 'Beer and Snack',
+      description: 'Delicious Beer and Snack Set',
+      price: 15000,
+      rating: "4.6"),
   Product(
-    imageUrl: 'assets/lg_stand_tv.png',
-    name: 'AMD Processor',
-    description: 'High-performance AMD Processor',
-    price: 300000,
-  ),
+      imageUrl: 'assets/lg_stand_tv.png',
+      name: 'AMD Processor',
+      description: 'High-performance AMD Processor',
+      price: 300000,
+      rating: "3.6"),
 ];
 
 // Sample data for "Best user profiles Top 10"
@@ -91,6 +95,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'E-Commerce App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -114,7 +119,7 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _screens = [
     const HomeScreen(),
     const Placeholder(), // Categories
-    const Placeholder(), // Cart
+    // const Placeholder(), // Cart
     const Placeholder(), // Notifications
     const ProfileScreen(),
   ];
@@ -132,16 +137,24 @@ class _MainScreenState extends State<MainScreen> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.category), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.notifications), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.category), label: 'Category'),
+          // BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: ''),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.people),
+            label: 'Community',
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile '),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.grey,
         onTap: _onItemTapped,
+        iconSize: 30,
       ),
     );
   }
@@ -155,148 +168,180 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home'),
+        elevation: 4,
+        title: const Text(
+          'LOGO',
+          style: TextStyle(color: Color(0xFF5D5FEF)),
+        ),
       ),
-      body: Column(
-        children: [
-          CarouselSlider(
-            options: CarouselOptions(
-              autoPlay: true,
-              aspectRatio: 344 / 240,
-              enlargeCenterPage: true,
-              enableInfiniteScroll: true,
-              autoPlayAnimationDuration: const Duration(milliseconds: 800),
-              viewportFraction: 0.95,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            CarouselSlider(
+              options: CarouselOptions(
+                autoPlay: true,
+                aspectRatio: 344 / 240,
+                enlargeCenterPage: true,
+                enableInfiniteScroll: true,
+                autoPlayAnimationDuration: const Duration(milliseconds: 800),
+                viewportFraction: 0.95,
+              ),
+              items: bannerImages.map((url) {
+                return Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 1.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: Image.asset(url,
+                        width: MediaQuery.of(context).size.width),
+                    // child: Image.network(
+                    //   url,
+                    //   fit: BoxFit.cover,
+                    //   width: double.infinity,
+                    // ),
+                  ),
+                );
+              }).toList(),
             ),
-            items: bannerImages.map((url) {
-              return Container(
-                margin: const EdgeInsets.symmetric(horizontal: 1.0),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                // Outer container draws the gradient as a "border"
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8.0),
+                  gradient: const LinearGradient(
+                    colors: [
+                      Color(0xFF64D2FF),
+                      Color(0xFF4F84FF)
+                    ], // Example gradient
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                  ),
                 ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: Image.asset(url,width: MediaQuery.of(context).size.width),
-                  // child: Image.network(
-                  //   url,
-                  //   fit: BoxFit.cover,
-                  //   width: double.infinity,
-                  // ),
-                ),
-              );
-            }).toList(),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Search',
-                prefixIcon: const Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
+                // This padding thickness is your "border" width
+                padding: const EdgeInsets.all(2.0),
+                child: Container(
+                  // Inner container for the solid background
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6.0),
+                    color: Colors.white,
+                  ),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: 'Search',
+                      suffixIcon: const Icon(Icons.search),
+                      border: InputBorder.none, // Remove default border
+                      contentPadding: const EdgeInsets.symmetric(
+                        vertical: 12.0,
+                        horizontal: 12.0,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: sampleProducts.length,
-              itemBuilder: (context, index) {
-                return ProductCard(product: sampleProducts[index]);
-              },
+            SizedBox(
+              height: MediaQuery.of(context).size.width,
+              child: ListView.builder(
+                itemCount: sampleProducts.length,
+                itemBuilder: (context, index) {
+                  return ProductCard(product: sampleProducts[index]);
+                },
+              ),
             ),
-          ),
-    SizedBox(
-    height: 100,
-    child: ListView.separated(
-    scrollDirection: Axis.horizontal,
-    itemCount: profiles.length,
-    separatorBuilder: (context, index) =>
-    const SizedBox(width: 8),
-    itemBuilder: (context, index) {
-    final reviewer = profiles[index];
-    return _buildProfileCircle(
-    name: reviewer['name'] ?? '',
-    imageUrl: reviewer['imageUrl'] ?? '',
-    );
-    },
-    ),
-    ),
+            Container(
+              margin: EdgeInsets.only(top: 10, left: 5, right: 5),
+              height: 180,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemCount: profiles.length,
+                separatorBuilder: (context, index) => const SizedBox(width: 8),
+                itemBuilder: (context, index) {
+                  final reviewer = profiles[index];
+                  return buildProfileCircle(
+                    name: reviewer['name'] ?? '',
+                    imageUrl: reviewer['imageUrl'] ?? '',
+                  );
+                },
+              ),
+            ),
+            Container(
+              // Give some padding and a light background color
+              color: Colors.grey.shade100,
+              padding: const EdgeInsets.all(16.0),
+              // Wrap in SafeArea if you want to avoid notches on mobile devices
+              child: SafeArea(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min, // Shrinks to fit content
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Company Name
+                    const Text(
+                      'LOGO Inc.',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
 
-    Container(
-    // Give some padding and a light background color
-    color: Colors.grey.shade100,
-    padding: const EdgeInsets.all(16.0),
-    // Wrap in SafeArea if you want to avoid notches on mobile devices
-    child: SafeArea(
-    child: Column(
-    mainAxisSize: MainAxisSize.min, // Shrinks to fit content
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-    // Company Name
-    const Text(
-    'LOGO Inc.',
-    style: TextStyle(
-    fontWeight: FontWeight.bold,
-    fontSize: 16,
-    ),
-    ),
-    const SizedBox(height: 12),
+                    // Row of links
+                    Row(
+                      children: [
+                        _buildFooterLink('About Us'),
+                        _buildSeparator(),
+                        _buildFooterLink('Careers'),
+                        _buildSeparator(),
+                        _buildFooterLink('Tech Blog'),
+                        _buildSeparator(),
+                        _buildFooterLink('Review Copyright'),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
 
-    // Row of links
-    Row(
-    children: [
-    _buildFooterLink('About Us'),
-    _buildSeparator(),
-    _buildFooterLink('Careers'),
-    _buildSeparator(),
-    _buildFooterLink('Tech Blog'),
-    _buildSeparator(),
-    _buildFooterLink('Review Copyright'),
-    ],
-    ),
-    const SizedBox(height: 12),
+                    // Email + Language Dropdown
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text('review@logo.com'),
+                        // Simple language dropdown
+                        DropdownButton<String>(
+                          value: 'ENG',
+                          icon: const Icon(Icons.keyboard_arrow_down),
+                          items: <String>['ENG', 'KOR'].map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            // handle language change here
+                          },
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
 
-    // Email + Language Dropdown
-    Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-    const Text('review@logo.com'),
-    // Simple language dropdown
-    DropdownButton<String>(
-    value: 'ENG',
-    icon: const Icon(Icons.keyboard_arrow_down),
-    items: <String>['ENG', 'KOR'].map((String value) {
-    return DropdownMenuItem<String>(
-    value: value,
-    child: Text(value),
-    );
-    }).toList(),
-    onChanged: (value) {
-    // handle language change here
-    },
-    ),
-    ],
-    ),
-    const SizedBox(height: 16),
-
-    // Copyright
-    const Text(
-    '©2022-2022 LOGO Lab, Inc. Some Address, Seoul, South Korea',
-    style: TextStyle(fontSize: 12, color: Colors.grey),
-    ),
-    ],
-    ),
-    ),
-    ),
-        ],
+                    // Copyright
+                    const Text(
+                      '©2022-2022 LOGO Lab, Inc. Some Address, Seoul, South Korea',
+                      style: TextStyle(fontSize: 12, color: Colors.grey),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
 /// A circular avatar + name for "best reviewer"
-Widget _buildProfileCircle({
+Widget buildProfileCircle({
   required String name,
   required String imageUrl,
 }) {
@@ -304,8 +349,8 @@ Widget _buildProfileCircle({
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       CircleAvatar(
-        radius: 30,
-        backgroundImage: NetworkImage(imageUrl),
+        radius: 50,
+        backgroundImage: AssetImage(imageUrl),
       ),
       const SizedBox(height: 4),
       Text(
@@ -316,7 +361,6 @@ Widget _buildProfileCircle({
   );
 }
 
-
 /// Separator (e.g., a small dot or vertical bar)
 Widget _buildSeparator() {
   return const Padding(
@@ -325,19 +369,19 @@ Widget _buildSeparator() {
   );
 }
 
-Widget _buildFooterLink(String text){
+Widget _buildFooterLink(String text) {
   return GestureDetector(
-  onTap: () {
-  // handle link tap, e.g. navigate to a new page
-  },
-  child: Text(
-  text,
-  style: const TextStyle(
-  fontSize: 14,
-  color: Colors.black87,
-  decoration: TextDecoration.underline,
-  ),
-  ),
+    onTap: () {
+      // handle link tap, e.g. navigate to a new page
+    },
+    child: Text(
+      text,
+      style: const TextStyle(
+        fontSize: 14,
+        color: Colors.black87,
+        decoration: TextDecoration.underline,
+      ),
+    ),
   );
 }
 
@@ -365,7 +409,6 @@ class ProductCard extends StatelessWidget {
                   image: NetworkImage(product.imageUrl),
                   fit: BoxFit.cover,
                 ),
-
               ),
               child: Image.asset(product.imageUrl),
             ),
@@ -386,6 +429,12 @@ class ProductCard extends StatelessWidget {
                     '₩${product.price.toStringAsFixed(0)}',
                     style: const TextStyle(color: Colors.green),
                   ),
+                  Row(
+                    children: [
+                      Icon(Icons.star, color: Colors.yellow, size: 16),
+                      Text(product.rating),
+                    ],
+                  ),
                   if (product.isTop10)
                     const Chip(
                       label: Text('Top 10'),
@@ -394,18 +443,18 @@ class ProductCard extends StatelessWidget {
                 ],
               ),
             ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ProductDetailScreen(product: product),
-                  ),
-                );
-              },
-              child: const Text('상세 보기'),
-            ),
+            // ElevatedButton(
+            //   style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
+            //   onPressed: () {
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //         builder: (context) => ProductDetailScreen(product: product),
+            //       ),
+            //     );
+            //   },
+            //   child: const Text('상세 보기'),
+            // ),
           ],
         ),
       ),
@@ -501,86 +550,333 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('프로필'),
-        actions: const [
-          IconButton(
-            icon: Icon(Icons.search),
-            onPressed: null, // Search functionality can be added later
+        // Custom AppBar
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
+            onPressed: () {
+              // Handle back navigation
+              Navigator.pop(context);
+            },
           ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 20),
-            CircleAvatar(
-              radius: 50,
-              backgroundImage: NetworkImage(sampleUser.profileImageUrl),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              sampleUser.username,
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+          centerTitle: true,
+          title: Column(
+            children: const [
+              Text(
+                'Main #1',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                ),
               ),
-            ),
-            const SizedBox(height: 20),
-            const ListTile(
-              leading: Icon(Icons.email),
-              title: Text('이메일'),
-              subtitle: Text('name01@example.com'),
-            ),
-            const ListTile(
-              leading: Icon(Icons.phone),
-              title: Text('전화번호'),
-              subtitle: Text('123-456-7890'),
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              '내 제품',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: 2, // Show only 2 products as per design
-              itemBuilder: (context, index) {
-                final product = sampleProducts[index + 2]; // Use last 2 products
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4.0),
-                  child: ListTile(
-                    leading: Container(
-                      width: 50,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
-                        image: DecorationImage(
-                          image: NetworkImage(product.imageUrl),
-                          fit: BoxFit.cover,
-                        ),
+              Text(
+                'Best Reviewer',
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          ),
+          // Make icon colors black
+          iconTheme: const IconThemeData(color: Colors.black),
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              // Profile Section
+              Padding(
+                padding: const EdgeInsets.only(top: 16.0, bottom: 8),
+                child: Column(
+                  children: [
+                    // Cat Image
+                    CircleAvatar(
+                      radius: 50,
+                      backgroundImage: NetworkImage(
+                        'https://via.placeholder.com/150/000000/FFFFFF/?text=Cat',
                       ),
                     ),
-                    title: Text(product.name),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    const SizedBox(height: 8),
+                    // Name + Gold Badge
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(product.description),
-                        const Row(
-                          children: [
-                            Icon(Icons.star, color: Colors.yellow, size: 16),
-                            Text('4.7'),
-                          ],
+                        const Text(
+                          'Name01',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.amber,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Text(
+                            'Gold',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                            ),
+                          ),
                         ),
                       ],
                     ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'Operating an assembly company and writing reviews.',
+                      style: TextStyle(fontSize: 14, color: Colors.grey),
+                    ),
+                  ],
+                ),
+              ),
+
+              const Divider(),
+
+              // Section Header
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Row(
+                  children: const [
+                    Text(
+                      'Total 35 reviews written',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              // Review Card (Product)
+              buildProductReviewCard(context),
+
+              // User Review Details
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: buildUserReview(context),
+              ),
+            ],
+          ),
+        ));
+  }
+
+// Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     appBar: AppBar(
+  //       title: const Text('프로필'),
+  //       actions: const [
+  //         IconButton(
+  //           icon: Icon(Icons.search),
+  //           onPressed: null, // Search functionality can be added later
+  //         ),
+  //       ],
+  //     ),
+  //     body: SingleChildScrollView(
+  //       child: Column(
+  //         children: [
+  //           const SizedBox(height: 20),
+  //           CircleAvatar(
+  //             radius: 50,
+  //             backgroundImage: NetworkImage(sampleUser.profileImageUrl),
+  //           ),
+  //           const SizedBox(height: 10),
+  //           Text(
+  //             sampleUser.username,
+  //             style: const TextStyle(
+  //               fontSize: 24,
+  //               fontWeight: FontWeight.bold,
+  //             ),
+  //           ),
+  //           const SizedBox(height: 20),
+  //           const ListTile(
+  //             leading: Icon(Icons.email),
+  //             title: Text('이메일'),
+  //             subtitle: Text('name01@example.com'),
+  //           ),
+  //           const ListTile(
+  //             leading: Icon(Icons.phone),
+  //             title: Text('전화번호'),
+  //             subtitle: Text('123-456-7890'),
+  //           ),
+  //           const SizedBox(height: 20),
+  //           const Text(
+  //             '내 제품',
+  //             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+  //           ),
+  //           ListView.builder(
+  //             shrinkWrap: true,
+  //             physics: const NeverScrollableScrollPhysics(),
+  //             itemCount: 2, // Show only 2 products as per design
+  //             itemBuilder: (context, index) {
+  //               final product =
+  //                   sampleProducts[index + 2]; // Use last 2 products
+  //               return Padding(
+  //                 padding: const EdgeInsets.symmetric(vertical: 4.0),
+  //                 child: ListTile(
+  //                   leading: Container(
+  //                     width: 50,
+  //                     height: 50,
+  //                     decoration: BoxDecoration(
+  //                       borderRadius: BorderRadius.circular(8.0),
+  //                       image: DecorationImage(
+  //                         image: NetworkImage(product.imageUrl),
+  //                         fit: BoxFit.cover,
+  //                       ),
+  //                     ),
+  //                   ),
+  //                   title: Text(product.name),
+  //                   subtitle: Column(
+  //                     crossAxisAlignment: CrossAxisAlignment.start,
+  //                     children: [
+  //                       Text(product.description),
+  //                       const Row(
+  //                         children: [
+  //                           Icon(Icons.star, color: Colors.yellow, size: 16),
+  //                           Text('4.7'),
+  //                         ],
+  //                       ),
+  //                     ],
+  //                   ),
+  //                 ),
+  //               );
+  //             },
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
+
+  /// Example "review card" for the product
+  Widget buildProductReviewCard(BuildContext context) {
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Row(
+          children: [
+            // Product Image
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.network(
+                'https://via.placeholder.com/80?text=AMD',
+                width: 80,
+                height: 80,
+                fit: BoxFit.cover,
+              ),
+            ),
+            const SizedBox(width: 12),
+            // Product Info
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'AMD Ryzen 5 5600X Vermeer (Genuine Multipack)',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    maxLines: 2,
                   ),
-                );
-              },
+                  const SizedBox(height: 4),
+                  Row(
+                    children: const [
+                      // Star Icon + Rating
+                      Icon(Icons.star, color: Colors.amber, size: 18),
+                      SizedBox(width: 4),
+                      Text(
+                        '4.07',
+                        style: TextStyle(fontSize: 14),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  /// Example of a single user review item
+  Widget buildUserReview(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(12.0),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade50,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.grey.shade300),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // User row: avatar + name + date
+          Row(
+            children: [
+              CircleAvatar(
+                radius: 20,
+                backgroundImage: NetworkImage(
+                  'https://via.placeholder.com/100?text=Cat',
+                ),
+              ),
+              const SizedBox(width: 8),
+              const Text(
+                'Name01',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const Spacer(),
+              const Text(
+                '2022.12.09',
+                style: TextStyle(color: Colors.grey, fontSize: 12),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          // Review text
+          const Text(
+            'Teddy was assembled neatly and worked well. It is also suitable to recommend to the customers of this company.\n\n'
+            'It slightly loads the CPU temperature. The BIOS is not that big of a deal.',
+            style: TextStyle(fontSize: 14),
+          ),
+          const SizedBox(height: 8),
+          // Optional: Horizontal list of images or a single image
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                buildReviewImage('https://via.placeholder.com/80x80?text=Pic1'),
+                const SizedBox(width: 8),
+                buildReviewImage('https://via.placeholder.com/80x80?text=Pic2'),
+                const SizedBox(width: 8),
+                buildReviewImage('https://via.placeholder.com/80x80?text=Pic3'),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Helper to build small images in the review
+  Widget buildReviewImage(String url) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(8),
+      child: Image.network(
+        url,
+        width: 80,
+        height: 80,
+        fit: BoxFit.cover,
       ),
     );
   }
