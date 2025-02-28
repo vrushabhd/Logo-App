@@ -63,7 +63,7 @@ Follow these instructions to get a copy of the project up and running on your lo
 
 ## Usage
 
-This project demonstrates a basic Flutter application structure with a focus on displaying and animating a logo. You can use this project as a starting point for your own Flutter projects or as a reference for learning Flutter animations and UI design.
+This project demonstrates a basic Flutter application structure with a focus on displaying  a user profile and product ratings. You can use this project as a starting point for your own Flutter projects or as a reference for learning Flutter animations and UI design.
 
 Feel free to explore the code in the `lib` directory and modify it according to your needs.
 
