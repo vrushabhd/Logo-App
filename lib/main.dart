@@ -605,103 +605,105 @@ class ProfileScreen extends StatelessWidget {
           iconTheme: const IconThemeData(color: Colors.black),
         ),
         body: SingleChildScrollView(
-          child: Column(
-            children: [
-              // Profile Section
-              Padding(
-                padding: const EdgeInsets.only(top: 16.0, bottom: 8),
-                child: Column(
-                  children: [
-                    // Cat Image
-                    CircleAvatar(
-                      radius: 50,
-                      backgroundImage: AssetImage(selectedIndex == 3 ?defaultimageUrl: imageUrl)
-                    ),
-                    const SizedBox(height: 8),
-                    // Name + Gold Badge
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                         Text(
-                           selectedIndex == 3? defaultnameValue:name,
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 4,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.amber,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: const Text(
-                            'Gold',
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                // Profile Section
+                Padding(
+                  padding: const EdgeInsets.only(top: 16.0, bottom: 8),
+                  child: Column(
+                    children: [
+                      // Cat Image
+                      CircleAvatar(
+                        radius: 50,
+                        backgroundImage: AssetImage(selectedIndex == 3 ?defaultimageUrl: imageUrl)
+                      ),
+                      const SizedBox(height: 8),
+                      // Name + Gold Badge
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                           Text(
+                             selectedIndex == 3? defaultnameValue:name,
                             style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    const Text(
-                      'Operating an assembly company and writing reviews.',
-                      style: TextStyle(fontSize: 14, color: Colors.grey),
-                    ),
-                  ],
-                ),
-              ),
-
-              const Divider(),
-
-              // Section Header
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
-                  children:  [
-                    Text(
-                      'Total 35 reviews written',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                          const SizedBox(width: 8),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.amber,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: const Text(
+                              'Gold',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    DropdownButton<String>(
-                      value: 'Sort By',
-                      icon: const Icon(Icons.keyboard_arrow_down),
-                      items: <String>['Sort By', 'Rating','A-Z'].map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        // handle language change here
-                      },
-                    ),
-                  ],
+                      const SizedBox(height: 8),
+                      const Text(
+                        'Operating an assembly company and writing reviews.',
+                        style: TextStyle(fontSize: 14, color: Colors.grey),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-
-              // Review Card (Product)
-              buildProductReviewCard(context,imageUrl),
-
-              // User Review Details
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: buildUserReview(context,name,imageUrl),
-              ),
-            ],
+          
+                const Divider(),
+          
+                // Section Header
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          
+                    children:  [
+                      Text(
+                        'Total 35 reviews written',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      DropdownButton<String>(
+                        value: 'Sort By',
+                        icon: const Icon(Icons.keyboard_arrow_down),
+                        items: <String>['Sort By', 'Rating','A-Z'].map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          // handle language change here
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+          
+                // Review Card (Product)
+                buildProductReviewCard(context,imageUrl),
+          
+                // User Review Details
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: buildUserReview(context,name,imageUrl),
+                ),
+              ],
+            ),
           ),
         ));
   }
