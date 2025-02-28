@@ -54,6 +54,20 @@ final List<Product> sampleProducts = [
   ),
 ];
 
+// Sample data for "Best user profiles Top 10"
+final profiles = [
+  {'name': 'Name01', 'imageUrl': 'assets/cat1.png'},
+  {'name': 'Name02', 'imageUrl': 'assets/cat2.png'},
+  {'name': 'Name03', 'imageUrl': 'assets/cat3.png'},
+  {'name': 'Name04', 'imageUrl': 'assets/cat4.png'},
+  {'name': 'Name05', 'imageUrl': 'assets/cat5.png'},
+  {'name': 'Name06', 'imageUrl': 'assets/cat6.png'},
+  {'name': 'Name07', 'imageUrl': 'assets/cat7.png'},
+  {'name': 'Name08', 'imageUrl': 'assets/cat8.png'},
+  {'name': 'Name09', 'imageUrl': 'assets/cat9.png'},
+  {'name': 'Name10', 'imageUrl': 'assets/cat10.png'},
+];
+
 final User sampleUser = User(
   profileImageUrl: 'https://via.placeholder.com/100?text=Cat',
   username: 'Name01',
@@ -192,10 +206,139 @@ class HomeScreen extends StatelessWidget {
               },
             ),
           ),
+    SizedBox(
+    height: 100,
+    child: ListView.separated(
+    scrollDirection: Axis.horizontal,
+    itemCount: profiles.length,
+    separatorBuilder: (context, index) =>
+    const SizedBox(width: 8),
+    itemBuilder: (context, index) {
+    final reviewer = profiles[index];
+    return _buildProfileCircle(
+    name: reviewer['name'] ?? '',
+    imageUrl: reviewer['imageUrl'] ?? '',
+    );
+    },
+    ),
+    ),
+
+    Container(
+    // Give some padding and a light background color
+    color: Colors.grey.shade100,
+    padding: const EdgeInsets.all(16.0),
+    // Wrap in SafeArea if you want to avoid notches on mobile devices
+    child: SafeArea(
+    child: Column(
+    mainAxisSize: MainAxisSize.min, // Shrinks to fit content
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+    // Company Name
+    const Text(
+    'LOGO Inc.',
+    style: TextStyle(
+    fontWeight: FontWeight.bold,
+    fontSize: 16,
+    ),
+    ),
+    const SizedBox(height: 12),
+
+    // Row of links
+    Row(
+    children: [
+    _buildFooterLink('About Us'),
+    _buildSeparator(),
+    _buildFooterLink('Careers'),
+    _buildSeparator(),
+    _buildFooterLink('Tech Blog'),
+    _buildSeparator(),
+    _buildFooterLink('Review Copyright'),
+    ],
+    ),
+    const SizedBox(height: 12),
+
+    // Email + Language Dropdown
+    Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+    const Text('review@logo.com'),
+    // Simple language dropdown
+    DropdownButton<String>(
+    value: 'ENG',
+    icon: const Icon(Icons.keyboard_arrow_down),
+    items: <String>['ENG', 'KOR'].map((String value) {
+    return DropdownMenuItem<String>(
+    value: value,
+    child: Text(value),
+    );
+    }).toList(),
+    onChanged: (value) {
+    // handle language change here
+    },
+    ),
+    ],
+    ),
+    const SizedBox(height: 16),
+
+    // Copyright
+    const Text(
+    '©2022-2022 LOGO Lab, Inc. Some Address, Seoul, South Korea',
+    style: TextStyle(fontSize: 12, color: Colors.grey),
+    ),
+    ],
+    ),
+    ),
+    ),
         ],
       ),
     );
   }
+}
+
+/// A circular avatar + name for "best reviewer"
+Widget _buildProfileCircle({
+  required String name,
+  required String imageUrl,
+}) {
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      CircleAvatar(
+        radius: 30,
+        backgroundImage: NetworkImage(imageUrl),
+      ),
+      const SizedBox(height: 4),
+      Text(
+        name,
+        style: const TextStyle(fontSize: 12),
+      ),
+    ],
+  );
+}
+
+
+/// Separator (e.g., a small dot or vertical bar)
+Widget _buildSeparator() {
+  return const Padding(
+    padding: EdgeInsets.symmetric(horizontal: 8.0),
+    child: Text('|', style: TextStyle(color: Colors.grey)),
+  );
+}
+
+Widget _buildFooterLink(String text){
+  return GestureDetector(
+  onTap: () {
+  // handle link tap, e.g. navigate to a new page
+  },
+  child: Text(
+  text,
+  style: const TextStyle(
+  fontSize: 14,
+  color: Colors.black87,
+  decoration: TextDecoration.underline,
+  ),
+  ),
+  );
 }
 
 // Product Card Widget
