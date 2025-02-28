@@ -665,13 +665,28 @@ class ProfileScreen extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Row(
-                  children: const [
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                  children:  [
                     Text(
                       'Total 35 reviews written',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
+                    ),
+                    DropdownButton<String>(
+                      value: 'Sort By',
+                      icon: const Icon(Icons.keyboard_arrow_down),
+                      items: <String>['Sort By', 'Rating','A-Z'].map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        // handle language change here
+                      },
                     ),
                   ],
                 ),
